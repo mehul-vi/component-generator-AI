@@ -6,7 +6,7 @@ const API_BASE_URL = 'http://localhost:3000/api';
 // Create axios instance with default config
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 30000, // 30 seconds timeout
+  timeout: 240000, // 120 seconds timeout to accommodate long-running Gemini requests
   headers: {
     'Content-Type': 'application/json',
   },
@@ -54,7 +54,7 @@ export const geminiAPI = {
           config.headers = { Authorization: `Bearer ${token}` };
         }
       }
-      
+
       const response = await apiClient.post('/gemini/generate-code', {
         prompt,
         framework
@@ -67,9 +67,17 @@ export const geminiAPI = {
   },
 
   // Get user history
-  getHistory: async () => {
+  getHistory: async (getToken) => {
     try {
-      const response = await apiClient.get('/gemini/history');
+      const config = {};
+      if (getToken) {
+        const token = await getToken();
+        if (token) {
+          config.headers = { Authorization: `Bearer ${token}` };
+        }
+      }
+
+      const response = await apiClient.get('/gemini/history', config);
       return response.data;
     } catch (error) {
       console.error('Get history error:', error);

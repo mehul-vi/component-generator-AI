@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import { ToastContainer } from 'react-toastify'
 import { ClerkProvider } from '@clerk/clerk-react'
+import { ThemeProvider } from './context/ThemeContext'
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -15,8 +16,10 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <App />
-      <ToastContainer />
+      <ThemeProvider>
+        <App />
+        <ToastContainer />
+      </ThemeProvider>
     </ClerkProvider>
   </StrictMode>
 )
