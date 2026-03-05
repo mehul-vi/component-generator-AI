@@ -22,13 +22,13 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }))
 
 
 const authRoutes = require("./routes/auth")
-app.use("/api", authRoutes)
+app.use("/", authRoutes)
 
 const historyRoutes = require("./routes/history")
-app.use("/api", historyRoutes)
+app.use("/", historyRoutes)
 
 const geminiRoutes = require("./routes/gemini")
-app.use("/api/gemini", geminiRoutes)
+app.use("/gemini", geminiRoutes)
 
 
 app.get('/', (req, res) => {
