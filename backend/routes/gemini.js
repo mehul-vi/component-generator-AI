@@ -18,6 +18,9 @@ const rateLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  keyGenerator: (req) => {
+    return req.headers["x-forwarded-for"] || req.ip || "guest";
+  }
 });
 
 //🔥 Optional auth middleware (allows guest access)
