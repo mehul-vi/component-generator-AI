@@ -4,9 +4,9 @@ class GeminiService {
   constructor() {
     this.genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     this.model = this.genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.5-pro",
       generationConfig: {
-        maxOutputTokens: 8192, // Maximum output token limit for flash model to ensure complete code
+        maxOutputTokens: 8192, // Maximum output token limit to ensure complete code
       }
     });
   }
@@ -28,6 +28,7 @@ STRICT OUTPUT RULES:
 - Do NOT include inline code comments.
 - Provide a complete standalone HTML file.
 - The file must work immediately when opened in a browser.
+- CRITICAL: Never truncate the code. You must finish the code block properly. Ensure your response ends with the closing </html> tag.
 
 TECHNICAL REQUIREMENTS:
 - Use semantic HTML5 structure.
