@@ -4,7 +4,7 @@ class GeminiService {
   constructor() {
     this.genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     this.model = this.genAI.getGenerativeModel({
-      model: "gemini-1.5-pro",
+      model: "gemini-2.5-flash",
       generationConfig: {
         maxOutputTokens: 8192,
       }
@@ -65,9 +65,18 @@ Return ONLY the complete HTML file inside one Markdown code block.
       const response = await result.response;
       const text = response.text();
 
-      // Extract code from markdown code blocks
-      const codeMatch = text.match(/```(?:html)?\n?([\s\S]*?)```/);
-      const extractedCode = codeMatch ? codeMatch[1].trim() : text.trim();
+      // Extract code from markdown code blocks safely
+      let extractedCode = text.trim();
+      // Remove opening ```html or ```
+      if (extractedCode.startsWith("```")) {
+        extractedCode = extractedCode.replace(/^```[a-z]*\n?/, "");
+      }
+      // Remove closing ```
+      if (extractedCode.endsWith("```")) {
+        extractedCode = extractedCode.replace(/```$/, "");
+      }
+
+      extractedCode = extractedCode.trim();
 
       return {
         success: true,
