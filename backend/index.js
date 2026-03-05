@@ -58,7 +58,9 @@ app.use((req, res) => {
 });
 
 const port = process.env.PORT || 3000
-if (process.env.NODE_ENV !== 'production') {
+// Only start the server natively if the file is executed directly (e.g. nodemon index.js)
+// If required as a module (e.g. by Vercel Serverless Functions), only export the app instance.
+if (require.main === module) {
   app.listen(port, () => {
     console.log(` Server running on port ${port}`)
     console.log(` Environment: ${process.env.NODE_ENV || "development"}`)
